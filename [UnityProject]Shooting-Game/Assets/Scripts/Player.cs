@@ -9,12 +9,14 @@ public class Player : MonoBehaviour {
 
     private float Speed = 5.0f;
     private PlayerController controller;
+    private Camera viewCamera;
 
     #endregion
 
     void Start ()
     {
         controller = GetComponent<PlayerController>();
+        viewCamera = Camera.main;
 	}
 	
 	void Update ()
@@ -23,6 +25,15 @@ public class Player : MonoBehaviour {
         Vector3 velocity = movement.normalized * Speed;
         controller.Move(velocity);
 
+        Ray ray = viewCamera.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        float distance;
+        if(groundPlane.Raycast(ray,out distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+            controller.Rotate(point);
+        }
+        
 
     }
 }

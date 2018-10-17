@@ -22,4 +22,11 @@ public class PlayerController : MonoBehaviour {
     {
         velocity = _velocity;
     }
+
+    public void Rotate(Vector3 hitPoint)
+    {
+        //First correct point:
+        Vector3 correctedPoint = new Vector3(hitPoint.x, transform.position.y, hitPoint.z);
+        transform.LookAt(correctedPoint);
+    }
 }
